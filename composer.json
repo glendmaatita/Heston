@@ -1,0 +1,21 @@
+{
+    "name": "heston/heston",
+    "description": "Simple FTP Wrapper - Git Powered",
+    "license": "Sembarangmu",
+    "authors": [
+        {
+            "name": "Glend Maatita",
+            "email": "glend.maatita@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": { "Heston": "src" } 
+    },
+    "require": {
+        "phpunit/phpunit": "3.7.*",
+        "symfony/class-loader": "v2.3.4"
+    },
+    "bin": [
+        "bin/heston"
+    ]
+}

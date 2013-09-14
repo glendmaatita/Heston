@@ -1,0 +1,36 @@
+#!/usr/bin/env php
+
+<?php
+
+require_once realpath(__DIR__.'/../vendor/autoload.php');
+
+
+use Symfony\Component\ClassLoader\UniversalClassLoader;
+
+$loader = new UniversalClassLoader();
+$loader->useIncludePath(true);
+
+$loader->registerNamespaces(array(
+	'Heston' => __DIR__. '/../src/Heston',
+	'Heston\Model' => __DIR__.'/../src/Heston/Model'
+));
+
+$loader->register();
+
+if( isset($argv[1]) && isset($argv[2]) && isset($argv[3]) && isset($argv[4]) && isset($argv[5]) )
+{
+	HestonFacade::upload( $argv[2], $argv[3], $argv[4], $argv[5] );
+}
+else
+{
+	help();
+}
+
+function help()
+{
+		echo <<<EOT
+\n================= Just Type this ===================\n
+php heston [url] [username] [password] [directory]
+\n================= end ===================\n
+EOT;
+}

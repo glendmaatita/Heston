@@ -54,11 +54,11 @@ class GitExtractor
 	 */
 	public function buildFiles($gitStatus)
 	{
-		$statuses = explode("\n", $gitStatus);
+		$statuses = explode("\n", $gitStatus);		
 		foreach ($statuses as $status) 
 		{
-			$files = explode(" ", $status);
-			$this->files[] = new File($files[1], $this->remoteDir, $files[0], FtpConstant::ASCII);
+			$files = explode(" ", trim(preg_replace('/\s\s+/', ' ',$status)));
+			$this->files[] = new File($files[1], $this->remoteDir . '/' . $files[1], $files[0], FtpConstant::ASCII);
 		}
 	}
 

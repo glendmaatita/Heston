@@ -4,12 +4,12 @@ class HestonFactoryTest extends \PHPUnit_Framework_TestCase
 {
 	public function testConnect()
 	{
-		$factory = new HestonFactory('ftp://190.345.2.134:21/public_html', '/home/malfunction/Project/Heston', 'root', 'secret' );
+		$factory = new HestonFactory('ftp://192.168.1.5:21/public_html', '/home/malfunction/Project/Heston', 'root', 'secret' );
 
 		$host = $factory->defineHost();
 
 
-		$this->assertEquals('190.345.2.134', $host['host']);
+		$this->assertEquals('192.168.1.5', $host['host']);
 		$this->assertEquals('21', $host['port']);
 		$this->assertEquals('/public_html', $host['remoteDir']);
 

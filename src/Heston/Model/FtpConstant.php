@@ -1,4 +1,4 @@
-<?php namespace Heston;
+<?php namespace Heston\Model;
 
 /**
  * FTP Constant Variable

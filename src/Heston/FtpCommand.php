@@ -8,7 +8,7 @@ class FtpCommand
 	/**
 	 * @var stream
 	 */
-	private $connect;
+	private $connector;
 
 	/**
 	 * @var string
@@ -63,7 +63,7 @@ class FtpCommand
 	 */
 	public function put($file)
 	{
-		return ftp_fput($this->connect, $file->getPath(), $file->getFilename(), FTP_ASCII);
+		return ftp_put($this->connect, $file->getPath(), $file->getFilename(), FTP_ASCII);
 	}
 
 	/**
@@ -84,7 +84,10 @@ class FtpCommand
 	 */
 	public function mkdir($dir)
 	{
-		return ftp_mkdir($this->connect, $dir);
+		if( !ftp_chdir($this->connect, $dir) ) 
+			return ftp_mkdir($this->connect, $dir);
+		else
+			return true;
 	}
 
 	/**

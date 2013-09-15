@@ -54,12 +54,19 @@ class GitExtractor
 	 */
 	public function buildFiles($gitStatus)
 	{
-		$statuses = explode("\n", $gitStatus);		
+		$statuses = explode("\n", $gitStatus);
 		foreach ($statuses as $status) 
 		{
+			if($status == '')
+				continue;
 			$files = explode(" ", trim(preg_replace('/\s\s+/', ' ',$status)));
 			$this->files[] = new File($files[1], $this->remoteDir . '/' . $files[1], $files[0], FtpConstant::ASCII);
 		}
+	}
+
+	public function commit($comment)
+	{
+		shell_exec( 'git commit -m "' . $comment . '"' );
 	}
 
 	/**

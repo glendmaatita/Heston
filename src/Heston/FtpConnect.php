@@ -33,9 +33,41 @@ class FtpConnect
 
 	/**
 	 * Connect to server
+	 *
+	 * @return stream
 	 */
 	public function connect()
 	{
 		return ftp_connect($this->host, $this->port, $this->timeout);
+	}
+
+	/**
+	 * Get Host of server
+	 *
+	 * @return string
+	 */
+	public function getHost()
+	{
+		return $this->host;
+	}
+
+	/**
+	 * Get Port of server
+	 *
+	 * @return string
+	 */
+	public function getPort()
+	{
+		return $this->port;
+	}
+
+	/**
+	 * Get Timeout
+	 *
+	 * @return string
+	 */
+	public function getTimeout()
+	{
+		return $this->timeout;
 	}
 }

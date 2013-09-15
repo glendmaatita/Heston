@@ -28,13 +28,19 @@ class Uploader
 		$this->extractor = $extractor;
 	}
 
+	/**
+	 * Upload all files
+	 *
+	 * @return void
+	 */
 	public function upload()
 	{
 		$this->extractor->extract();
-		$this->ftpCommand->login($this->username, $password);
+		$this->ftpCommand->login();
+
 		foreach ($this->extractor->getFiles() as $file) 
 		{
-			switch ($file['status']) {
+			switch ($file->getStatus()) {
 				case 'A':
 					$this->add($file);
 					break;
@@ -48,24 +54,40 @@ class Uploader
 					break;
 			}
 		}
+		$this->extractor->commit("Succesfully Uploaded");
 	}
 
+	/**
+	 * Adding file. if Directory not exist, create first
+	 *
+	 * @param Heston\Model\File
+	 * @return void
+	 */	
 	public function add($file)
 	{
-		if(basename($file->getPath()))
-		{
-			if($this->ftpCommand->mkdir( $file->getPath() ))
-				$this->ftpCommand->put();
-		}
+		if($this->ftpCommand->mkdir( dirname($file->getPath()) ))
+			$this->ftpCommand->put($file);
 	}
 
+	/**
+	 * Modify file
+	 *
+	 * @param Heston\Model\File
+	 * @return void
+	 */	
 	public function put($file)
 	{
-		$this->ftpCommand->put();
+		$this->ftpCommand->put($file);
 	}
 
+	/**
+	 * Deleting file
+	 *
+	 * @param Heson\Model\File
+	 * @return void
+	 */
 	public function delete($file)
 	{
-		$this->ftpCommand->delete($file->getPath());
+		$this->ftpCommand->delete($file);
 	}
 }

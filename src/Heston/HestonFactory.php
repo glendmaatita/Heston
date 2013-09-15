@@ -14,7 +14,7 @@ class HestonFactory
 	/**
 	 * @var array
 	 */
-	private $host = array();
+	private $host = array('hostname' => '', 'port' => '21', 'remoteDir' => '');
 
 	/**
 	 * @var string local directory
@@ -52,6 +52,9 @@ class HestonFactory
 		$this->password = $password;
 	}
 
+	/**
+	 * Create object instance
+	 */
 	public function create($type)
 	{
 		$this->defineHost();
@@ -66,11 +69,11 @@ class HestonFactory
 				break;
 
 			case 'commander':
-				return $this->command($this->connect(), $this->username, $this->password);
+				return $this->command();
 				break;
 
 			case 'uploader':
-				return $this->upload($this->command($this->connect(), $this->username, $this->password), $this->extract());
+				return $this->upload();
 				break;
 			
 			default:
@@ -78,33 +81,59 @@ class HestonFactory
 		}	
 	}
 
+	/**
+	 * Define host, port, path from given URL
+	 *
+	 * @return array
+	 */
 	public function defineHost()
 	{
 		$hostComponent = parse_url($this->url);
-		$this->host['host'] = $hostComponent['host'];
-		$this->host['port'] = $hostComponent['port'];
-		$this->host['remoteDir'] = $hostComponent['path'];
+		$this->host['hostname'] = $hostComponent['host'];
+		$this->host['port'] = isset($hostComponent['port']) ? $hostComponent['port'] : '21' ;
+		//$this->host['remoteDir'] = $hostComponent['path'];
 
 		return $this->host;
 	}
 
+	/**
+	 * Create FtpConnect object instance
+	 *
+	 * @return Heston\FtpConnect
+	 */
 	public function connect()
 	{
-		return new FtpConnect($this->host['host'], $this->host['port']);
+		$connector = new FtpConnect($this->host['hostname'], $this->host['port']);
+		return $connector->connect();
 	}
 
+	/**
+	 * Create GitExtractor object instance
+	 *
+	 * @return Heston\GitExtractor
+	 */
 	public function extract()
 	{
 		return new GitExtractor($this->localDir, $this->host['remoteDir']);
 	}
 
-	public function command($ftpConnect, $username, $password)
+	/**
+	 * Create FtpCommand object instance
+	 *
+	 * @return Heston\FtpCommand
+	 */
+	public function command()
 	{
-		return new FtpCommand($ftpConnect, $username, $password);
+		return new FtpCommand($this->connect(), $this->username, $this->password);
 	}
 
-	public function upload($ftpCommand, $extractor)
+	/**
+	 * Create Uploader Object instance
+	 *
+	 * @return Heston\Uploader
+	 */
+	public function upload()
 	{
-		return new Uploader($ftpCommand, $extractor);
+		return new Uploader($this->command($this->connect(), $this->username, $this->password), $this->extract());
 	}
 }

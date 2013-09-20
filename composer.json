@@ -1,7 +1,7 @@
 {
     "name": "heston/heston",
-    "description": "Simple FTP Wrapper - Git Powered",
-    "license": "Sembarangmu",
+    "description": "Simple FTP Wrapper with Git Powered",
+    "license": "MIT",
     "authors": [
         {
             "name": "Glend Maatita",
@@ -12,8 +12,7 @@
         "psr-0": { "Heston": "src" } 
     },
     "require": {
-        "phpunit/phpunit": "3.7.*",
-        "symfony/class-loader": "v2.3.4"
+        "phpunit/phpunit": "3.7.*"
     },
     "bin": [
         "bin/heston"

@@ -61,7 +61,7 @@ class HestonFactory
 		switch ($type) 
 		{
 			case 'connector':
-				return $this->connect();
+				return $this->connector();
 				break;
 
 			case 'extractor':
@@ -88,23 +88,35 @@ class HestonFactory
 	 */
 	public function defineHost()
 	{
-		$hostComponent = parse_url($this->url);
-		$this->host['hostname'] = $hostComponent['host'];
-		$this->host['port'] = isset($hostComponent['port']) ? $hostComponent['port'] : '21' ;
-		//$this->host['remoteDir'] = $hostComponent['path'];
+		// Split FTP URI into: 
+    // $match[0] = ftp://username:password@ftp.domain.tld/path1/path2/ 
+    // $match[1] = username
+    // $match[2] = password 
+    // $match[3] = ftp.domain.tld 
+    // $match[4] = port
+    // $match[5] = /public_html
+		preg_match("/ftp:\/\/(.*?):(.*?)@(.*?):(.*?)(\/.*)/i", $this->url, $match); 
+
+		//var_dump($match); die();
+
+		$this->host['hostname'] = $match[3];
+		$this->host['port'] = $match[4];
+		$this->host['username'] = $match[1];
+		$this->host['password'] = $match[2];
+		$this->host['remoteDir'] = $match[5];
 
 		return $this->host;
-	}
+	} 
 
 	/**
 	 * Create FtpConnect object instance
 	 *
 	 * @return Heston\FtpConnect
 	 */
-	public function connect()
+	public function connector()
 	{
 		$connector = new FtpConnect($this->host['hostname'], $this->host['port']);
-		return $connector->connect();
+		return $connector;
 	}
 
 	/**
@@ -124,7 +136,7 @@ class HestonFactory
 	 */
 	public function command()
 	{
-		return new FtpCommand($this->connect(), $this->username, $this->password);
+		return new FtpCommand($this->connector()->connect(), $this->username, $this->password);
 	}
 
 	/**
@@ -134,6 +146,6 @@ class HestonFactory
 	 */
 	public function upload()
 	{
-		return new Uploader($this->command($this->connect(), $this->username, $this->password), $this->extract());
+		return new Uploader($this->command($this->connector()->connect(), $this->username, $this->password), $this->extract());
 	}
 }

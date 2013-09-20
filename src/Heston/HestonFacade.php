@@ -13,10 +13,10 @@ class HestonFacade
 	 * @param string $password
 	 * @param string $localDir
 	 */
-	public static function upload($url, $username, $password, $localDir)
+	public static function upload($uri, $localDir)
 	{
 		//build a factory first
-		$factory = new HestonFactory($url, $localDir, $username, $password);
+		$factory = new HestonFactory($uri, $localDir);
 
 		// extract from git status
 		$uploader = $factory->create('uploader');

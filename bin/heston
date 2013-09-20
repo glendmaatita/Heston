@@ -18,9 +18,9 @@ date_default_timezone_set('Asia/Jakarta');
 
 use Heston\HestonFacade;
 
-if( isset($argv[1]) && isset($argv[2]) && isset($argv[3]) && isset($argv[4]) )
+if( isset($argv[1]) && isset($argv[2]))
 {
-	HestonFacade::upload( $argv[1], $argv[2], $argv[3], $argv[4] );
+	HestonFacade::upload( $argv[1], $argv[2] );
 }
 else
 {
@@ -31,7 +31,7 @@ function help()
 {
 		echo <<<EOT
 \n================= Just Type this ===================\n
-php heston [url] [username] [password] [directory to upload] [directory on FTP Server]
+php heston ftp://username:password@ftp.domain.tld:port/path/to/ftp/dir [directory to upload]
 \n================= end ===================\n
 EOT;
 }

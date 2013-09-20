@@ -8,7 +8,7 @@ class FtpCommand
 	/**
 	 * @var stream
 	 */
-	private $connector;
+	private $connect;
 
 	/**
 	 * @var string

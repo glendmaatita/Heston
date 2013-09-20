@@ -60,13 +60,18 @@ class GitExtractor
 			if($status == '')
 				continue;
 			$files = explode(" ", trim(preg_replace('/\s\s+/', ' ',$status)));
-			$this->files[] = new File($files[1], $this->remoteDir . '/' . $files[1], $files[0], FtpConstant::ASCII);
+
+			// still draft			
+			$rdir = str_replace($this->directory, "", '/' . $files[1]);
+
+			//$this->files[] = new File($files[1], $this->remoteDir . '/' . $files[1], $files[0], FtpConstant::ASCII);
+			$this->files[] = new File($files[1], $rdir, $files[0], FtpConstant::ASCII);
 		}
 	}
 
 	public function commit($comment)
 	{
-		shell_exec( 'git commit -m "' . $comment . '"' );
+		shell_exec( 'git commit -m "' . $comment . '"' . $this->directory );
 	}
 
 	/**

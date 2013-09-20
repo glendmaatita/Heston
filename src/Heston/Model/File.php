@@ -74,8 +74,7 @@ class File
 	 */
 	public function getPath()
 	{
-		// draft
-		return '/'; //$this->path;
+		return $this->path;
 	}
 
 	/**

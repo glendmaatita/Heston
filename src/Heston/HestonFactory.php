@@ -22,34 +22,22 @@ class HestonFactory
 	private $localDir;
 
 	/**
-	 * @var string remote directory
-	 */
-	private $remoteDir;
-
-	/**
 	 * @var string
 	 */
-	private $username;
-
-	/**
-	 * @var string
-	 */
-	private $password;
+	private $comment;
 
 	/**
 	 * Construct
 	 *
 	 * @param string $url
 	 * @param string $localDir
-	 * @param string $username
-	 * @param string $password
+	 * @param string $comment
 	 */
-	public function __construct($url, $localDir, $username, $password)
+	public function __construct($url, $localDir, $comment)
 	{
 		$this->url = $url;
 		$this->localDir = $localDir;
-		$this->username = $username;
-		$this->password = $password;
+		$this->comment = $comment;
 	}
 
 	/**
@@ -89,21 +77,20 @@ class HestonFactory
 	public function defineHost()
 	{
 		// Split FTP URI into: 
-    // $match[0] = ftp://username:password@ftp.domain.tld/path1/path2/ 
+    // $match[0] = ftp://username:password@ftp.domain.tld:port/path1/path2/ 
     // $match[1] = username
     // $match[2] = password 
     // $match[3] = ftp.domain.tld 
     // $match[4] = port
     // $match[5] = /public_html
-		preg_match("/ftp:\/\/(.*?):(.*?)@(.*?):(.*?)(\/.*)/i", $this->url, $match); 
-
-		//var_dump($match); die();
+		//preg_match("/ftp:\/\/(.*?):(.*?)@(.*?):(.*?)(\/.*)/i", $this->url, $match); 
+		preg_match("/ftp:\/\/(.*?):(.*?)@(.*?):(.*?)(.*)/i", $this->url, $match); //still draft
 
 		$this->host['hostname'] = $match[3];
-		$this->host['port'] = $match[4];
+		$this->host['port'] = $match[5];
 		$this->host['username'] = $match[1];
 		$this->host['password'] = $match[2];
-		$this->host['remoteDir'] = $match[5];
+		$this->host['remoteDir'] = $match[4];
 
 		return $this->host;
 	} 
@@ -136,7 +123,7 @@ class HestonFactory
 	 */
 	public function command()
 	{
-		return new FtpCommand($this->connector()->connect(), $this->username, $this->password);
+		return new FtpCommand($this->connector()->connect(), $this->host['username'], $this->host['password']);
 	}
 
 	/**
@@ -146,6 +133,6 @@ class HestonFactory
 	 */
 	public function upload()
 	{
-		return new Uploader($this->command($this->connector()->connect(), $this->username, $this->password), $this->extract());
+		return new Uploader($this->command($this->connector()->connect(), $this->host['username'], $this->host['password']), $this->extract(), $this->comment);
 	}
 }

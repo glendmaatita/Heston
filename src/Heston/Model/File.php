@@ -60,10 +60,11 @@ class File
 	 * Set path to upload
 	 *
 	 * @param string $path
+	 * @todo set path
 	 */
 	public function setPath($path)
 	{
-		$this->path = $path;
+		$this->path = $path; 
 	}
 
 	/**
@@ -73,7 +74,8 @@ class File
 	 */
 	public function getPath()
 	{
-		return $this->path;
+		// draft
+		return '/'; //$this->path;
 	}
 
 	/**

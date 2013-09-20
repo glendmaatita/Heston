@@ -17,15 +17,21 @@ class Uploader
 	private $gitExtractor;
 
 	/**
+	 * @var string
+	 */
+	private $comment;
+
+	/**
 	 * Construct
 	 *
 	 * @param FtpCommand $ftpCommand
 	 * @param array(GitExtractor) $extractor
 	 */
-	public function __construct($ftpCommand, $extractor)
+	public function __construct($ftpCommand, $extractor, $comment)
 	{
 		$this->ftpCommand = $ftpCommand;
 		$this->extractor = $extractor;
+		$this->comment = $comment;
 	}
 
 	/**
@@ -54,7 +60,7 @@ class Uploader
 					break;
 			}
 		}
-		$this->extractor->commit("Succesfully Uploaded");
+		$this->extractor->commit($this->comment);
 	}
 
 	/**
@@ -66,7 +72,7 @@ class Uploader
 	public function add($file)
 	{
 		if($this->ftpCommand->mkdir( dirname($file->getPath()) ))
-			$this->ftpCommand->put($file);
+			$this->ftpCommand->put($file);			
 	}
 
 	/**

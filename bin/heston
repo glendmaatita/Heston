@@ -20,7 +20,12 @@ use Heston\HestonFacade;
 
 if( isset($argv[1]) && isset($argv[2]))
 {
-	HestonFacade::upload( $argv[1], $argv[2] );
+	if (!isset($argv[3]))
+	{
+		$argv[3] = "Successfully uploaded";
+	}	
+		
+	HestonFacade::upload( $argv[1], $argv[2], $argv[3] );
 }
 else
 {

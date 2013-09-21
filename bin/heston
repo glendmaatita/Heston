@@ -36,7 +36,7 @@ function help()
 {
 		echo <<<EOT
 \n================= Just Type this ===================\n
-php heston ftp://username:password@ftp.domain.tld:port/path/to/ftp/dir [directory to upload]
+php heston ftp://username:password@ftp.domain.tld:port [directory to upload] [comment]
 \n================= end ===================\n
 EOT;
 }

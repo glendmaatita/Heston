@@ -111,10 +111,10 @@ class FtpCommand
 	public function make_directory($dir)
 	{
 		// if directory already exists or can be immediately created return true
-		if (ftp_is_dir($dir) || @ftp_mkdir($this->connect, $dir)) 
+		if ($this->ftp_is_dir($dir) || @ftp_mkdir($this->connect, $dir)) 
 			return true;
 		// otherwise recursively try to make the directory
-		if (!make_directory(dirname($dir))) 
+		if (!$this->make_directory(dirname($dir))) 
 			return false;
 		// final step to create the directory
 		return ftp_mkdir($this->connect, $dir);

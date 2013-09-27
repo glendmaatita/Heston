@@ -84,10 +84,13 @@ class FtpCommand
 	 */
 	public function mkdir($dir)
 	{
+		/*
 		if( !ftp_chdir($this->connect, $dir) ) 
 			return ftp_mkdir($this->connect, $dir);
 		else
 			return true;
+		*/
+		return $this->make_directory($dir);
 	}
 
 	/**
@@ -99,5 +102,38 @@ class FtpCommand
 	public function rmdir($dir)
 	{
 		return ftp_rmdir($this->connect, $dir);
+	}
+
+	/**
+	 * recursive make directory function for ftp 
+	 * tribute to http://sameerparwani.com/posts/recursive-ftp-make-directory-mkdir
+	 */
+	public function make_directory($dir)
+	{
+		// if directory already exists or can be immediately created return true
+		if (ftp_is_dir($dir) || @ftp_mkdir($this->connect, $dir)) 
+			return true;
+		// otherwise recursively try to make the directory
+		if (!make_directory(dirname($dir))) 
+			return false;
+		// final step to create the directory
+		return ftp_mkdir($this->connect, $dir);
+	}
+
+	public function ftp_is_dir($dir)
+	{
+		// get current directory
+		$original_directory = ftp_pwd($this->connect);
+		// test if you can change directory to $dir
+		// suppress errors in case $dir is not a file or not a directory
+		if ( @ftp_chdir( $this->connect, $dir ) ) 
+		{
+			// If it is a directory, then change the directory back to the original directory
+			ftp_chdir( $this->connect, $original_directory );
+			return true;
+		} 
+		else {
+			return false;
+		}
 	}
 }

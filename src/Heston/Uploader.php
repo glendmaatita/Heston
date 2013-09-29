@@ -51,7 +51,7 @@ class Uploader
 					$this->add($file);
 					break;
 				case 'M':
-					$this->put($file);
+					$this->add($file);
 					break;
 				case 'D':
 					$this->delete($file);
@@ -64,7 +64,7 @@ class Uploader
 	}
 
 	/**
-	 * Adding file. if Directory not exist, create first
+	 * Add/Modify file. if Directory not exist, create first
 	 *
 	 * @param Heston\Model\File
 	 * @return void
@@ -73,17 +73,6 @@ class Uploader
 	{
 		if($this->ftpCommand->mkdir( dirname($file->getPath()) ))
 			$this->ftpCommand->put($file);			
-	}
-
-	/**
-	 * Modify file
-	 *
-	 * @param Heston\Model\File
-	 * @return void
-	 */	
-	public function put($file)
-	{
-		$this->ftpCommand->put($file);
 	}
 
 	/**

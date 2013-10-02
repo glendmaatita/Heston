@@ -60,7 +60,7 @@ class Uploader
 					break;
 			}
 		}
-		$this->extractor->commit($this->comment);
+		//$this->extractor->commit($this->comment);
 	}
 
 	/**

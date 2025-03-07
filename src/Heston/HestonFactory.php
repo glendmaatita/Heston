@@ -1,5 +1,9 @@
 <?php namespace Heston;
 
+use Heston\FtpCommand;
+use Heston\GitExtractor;
+use Heston\Uploader;
+
 /**
  * Factory to get Class Instance
  */
@@ -77,12 +81,12 @@ class HestonFactory
 	public function defineHost()
 	{
 		// Split FTP URI into: 
-    // $match[0] = ftp://username:password@ftp.domain.tld:port/path1/path2/ 
-    // $match[1] = username
-    // $match[2] = password 
-    // $match[3] = ftp.domain.tld 
-    // $match[4] = port
-    // $match[5] = /public_html
+		// $match[0] = ftp://username:password@ftp.domain.tld:port/path1/path2/ 
+		// $match[1] = username
+		// $match[2] = password 
+		// $match[3] = ftp.domain.tld 
+		// $match[4] = port
+		// $match[5] = /public_html
 		//preg_match("/ftp:\/\/(.*?):(.*?)@(.*?):(.*?)(\/.*)/i", $this->url, $match); 
 		preg_match("/ftp:\/\/(.*?):(.*?)@(.*?):(.*?)(.*)/i", $this->url, $match); //still draft
 
@@ -100,7 +104,7 @@ class HestonFactory
 	 *
 	 * @return Heston\FtpConnect
 	 */
-	public function connector()
+	public function connector(): FtpConnect
 	{
 		$connector = new FtpConnect($this->host['hostname'], $this->host['port']);
 		return $connector;
@@ -111,7 +115,7 @@ class HestonFactory
 	 *
 	 * @return Heston\GitExtractor
 	 */
-	public function extract()
+	public function extract(): GitExtractor
 	{
 		return new GitExtractor($this->localDir, $this->host['remoteDir']);
 	}
@@ -121,7 +125,7 @@ class HestonFactory
 	 *
 	 * @return Heston\FtpCommand
 	 */
-	public function command()
+	public function command(): FtpCommand
 	{
 		return new FtpCommand($this->connector()->connect(), $this->host['username'], $this->host['password']);
 	}
@@ -131,8 +135,8 @@ class HestonFactory
 	 *
 	 * @return Heston\Uploader
 	 */
-	public function upload()
+	public function upload(): Uploader
 	{
-		return new Uploader($this->command($this->connector()->connect(), $this->host['username'], $this->host['password']), $this->extract(), $this->comment);
+		return new Uploader($this->command(), $this->extract(), $this->comment);
 	}
 }

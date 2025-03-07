@@ -12,7 +12,7 @@ Via Composer
 
     {
         "require": {
-            "heston/heston": "v0.5.0"
+            "heston/heston": "dev-master"
         }
     }
 

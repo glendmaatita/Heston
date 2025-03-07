@@ -1,5 +1,8 @@
 <?php namespace Heston;
 
+use Heston\FtpCommand;
+use Heston\GitExtractor;
+
 /**
  * Upload files to FTP Server
  */
@@ -9,12 +12,12 @@ class Uploader
 	/**
 	 * @var Heston\FtpCommand
 	 */
-	private $ftpCommand;
+	private FtpCommand $ftpCommand;
 
 	/**
 	 * @var GitExtractor
 	 */
-	private $gitExtractor;
+	private GitExtractor $gitExtractor;
 
 	/**
 	 * @var string
@@ -27,10 +30,10 @@ class Uploader
 	 * @param FtpCommand $ftpCommand
 	 * @param array(GitExtractor) $extractor
 	 */
-	public function __construct($ftpCommand, $extractor, $comment)
+	public function __construct(FtpCommand $ftpCommand, GitExtractor $gitExtractor, $comment)
 	{
 		$this->ftpCommand = $ftpCommand;
-		$this->extractor = $extractor;
+		$this->gitExtractor = $gitExtractor;
 		$this->comment = $comment;
 	}
 
@@ -41,10 +44,10 @@ class Uploader
 	 */
 	public function upload()
 	{
-		$this->extractor->extract();
+		$this->gitExtractor->extract();
 		$this->ftpCommand->login();
 
-		foreach ($this->extractor->getFiles() as $file) 
+		foreach ($this->gitExtractor->getFiles() as $file) 
 		{
 			switch ($file->getStatus()) {
 				case 'A':

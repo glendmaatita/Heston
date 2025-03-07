@@ -15,7 +15,7 @@ class HestonFacade
 	 */
 	public static function upload($uri, $localDir, $comment)
 	{
-		//build a factory first
+		// build a factory first
 		$factory = new HestonFactory($uri, $localDir, $comment);
 
 		// extract from git status

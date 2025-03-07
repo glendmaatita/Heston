@@ -1,0 +1,25 @@
+name: Update Packagist dev-master
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - '*'
+
+jobs:
+  update_packagist:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Update Packagist version
+      env:
+        COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ secrets.GITHUB_TOKEN }}"}}'
+      run: |
+        composer config --global github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
+        composer install
+        composer validate
+        composer publish

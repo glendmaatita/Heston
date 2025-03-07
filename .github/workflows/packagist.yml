@@ -1,25 +1,25 @@
-name: Update Packagist dev-master
+name: Update Packagist
 
 on:
   push:
     branches:
       - master
     tags:
-      - '*'
+      - "*"
 
 jobs:
-  update_packagist:
+  update-packagist:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Trigger Packagist Update
+        run: |
+          curl -XPOST -H "Authorization: Bearer ${{ secrets.PACKAGIST_TOKEN }}" \
+               https://packagist.org/api/update-package/?username=${{ secrets.PACKAGIST_USERNAME }}&repository=${{ github.repository }}
 
-    - name: Update Packagist version
-      env:
-        COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ secrets.GITHUB_TOKEN }}"}}'
-      run: |
-        composer config --global github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
-        composer install
-        composer validate
-        composer publish
+      - name: Notify Success
+        if: success()
+        run: echo "Packagist update triggered successfully."
+
+      - name: Notify Failure
+        if: failure()
+        run: echo "Failed to trigger Packagist update."

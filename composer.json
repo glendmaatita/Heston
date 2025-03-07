@@ -9,7 +9,9 @@
         }
     ],
     "autoload": {
-        "psr-0": { "Heston": "src" } 
+        "psr-4": {
+            "Heston\\": "src/Heston"
+        }
     },
     "require-dev": {
         "phpunit/phpunit": "12.0.*"

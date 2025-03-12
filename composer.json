@@ -10,7 +10,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "Heston\\": "src/Heston"
+            "Heston\\": "src/Heston",
+            "Heston\\Tests\\": "tests/Heston"
         }
     },
     "require-dev": {

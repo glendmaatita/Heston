@@ -1,5 +1,7 @@
 <?php namespace Heston;
 
+use FTP\Connection;
+
 class FtpConnect
 {
 	/**
@@ -34,9 +36,9 @@ class FtpConnect
 	/**
 	 * Connect to server
 	 *
-	 * @return stream
+	 * @return FTP\Connection
 	 */
-	public function connect()
+	public function connect(): Connection
 	{
 		return ftp_connect($this->host, $this->port, $this->timeout);
 	}

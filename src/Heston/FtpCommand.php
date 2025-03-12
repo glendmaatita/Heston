@@ -1,14 +1,15 @@
 <?php namespace Heston;
 
-use Heston\Model\File;
+use Heston\FtpConnect;
+use FTP\Connection as FTPConnection;
 
 class FtpCommand
 {
 
 	/**
-	 * @var stream
+	 * @var FTPConnection
 	 */
-	private $connect;
+	private FTPConnection $connect;
 
 	/**
 	 * @var string
@@ -23,9 +24,9 @@ class FtpCommand
 	/**
 	 * Construct
 	 *
-	 * @param stream $connect
+	 * @param FTPConnection $connect
 	 */
-	public function __construct($connect, $username, $password)
+	public function __construct(FTPConnection $connect, $username, $password)
 	{
 		$this->connect = $connect;
 		$this->username = $username;
@@ -84,12 +85,6 @@ class FtpCommand
 	 */
 	public function mkdir($dir)
 	{
-		/*
-		if( !ftp_chdir($this->connect, $dir) ) 
-			return ftp_mkdir($this->connect, $dir);
-		else
-			return true;
-		*/
 		return $this->make_directory($dir);
 	}
 

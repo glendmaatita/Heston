@@ -3,6 +3,7 @@
 use Heston\FtpCommand;
 use Heston\GitExtractor;
 use Heston\Uploader;
+use Heston\FtpConnect;
 
 /**
  * Factory to get Class Instance
@@ -102,7 +103,7 @@ class HestonFactory
 	/**
 	 * Create FtpConnect object instance
 	 *
-	 * @return Heston\FtpConnect
+	 * @return FTP\Connection
 	 */
 	public function connector(): FtpConnect
 	{
@@ -113,7 +114,7 @@ class HestonFactory
 	/**
 	 * Create GitExtractor object instance
 	 *
-	 * @return Heston\GitExtractor
+	 * @return GitExtractor
 	 */
 	public function extract(): GitExtractor
 	{
@@ -123,17 +124,20 @@ class HestonFactory
 	/**
 	 * Create FtpCommand object instance
 	 *
-	 * @return Heston\FtpCommand
+	 * @return FtpCommand
 	 */
 	public function command(): FtpCommand
 	{
-		return new FtpCommand($this->connector()->connect(), $this->host['username'], $this->host['password']);
+		return new FtpCommand(
+			$this->connector()->connect(), 
+			$this->host['username'], 
+			$this->host['password']);
 	}
 
 	/**
 	 * Create Uploader Object instance
 	 *
-	 * @return Heston\Uploader
+	 * @return Uploader
 	 */
 	public function upload(): Uploader
 	{

@@ -1,8 +1,5 @@
 <?php namespace Heston;
 
-use Heston\FtpCommand;
-use Heston\GitExtractor;
-
 /**
  * Upload files to FTP Server
  */
@@ -63,7 +60,6 @@ class Uploader
 					break;
 			}
 		}
-		//$this->extractor->commit($this->comment);
 	}
 
 	/**

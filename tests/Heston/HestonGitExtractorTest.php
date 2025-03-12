@@ -1,6 +1,9 @@
-<?php namespace Heston;
+<?php namespace Heston\Tests;
 
-class HestonGitExtractor extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+use Heston\GitExtractor;
+
+class HestonGitExtractor extends TestCase
 {
 	public function testExtract()
 	{

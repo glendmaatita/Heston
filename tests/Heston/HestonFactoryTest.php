@@ -1,6 +1,9 @@
-<?php namespace Heston;
+<?php namespace Heston\Tests;
 
-class HestonFactoryTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+use Heston\HestonFactory;
+
+class HestonFactoryTest extends TestCase
 {
 	public function testConnect()
 	{
